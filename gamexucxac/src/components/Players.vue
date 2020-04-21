@@ -26,7 +26,7 @@ export default {
     props:{
         scorePlayer: Array,
         currenScore: Number,
-        activePlayer: Number,
+        activePlayer: {type: Number, default: 0}
     },
     data(){
         return{

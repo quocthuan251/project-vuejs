@@ -7,6 +7,8 @@
             
            <Controls
            @handleNewGame="handleNewGame"
+           @handleRollDice="handleRollDice"
+           @handleHoldDice="handleHoldDice"
            />
             <Dices :dice="dice"/>
        
@@ -37,6 +39,10 @@ export default {
     PopupRule,
   },
   methods:{
+    nextPlayer(){
+      this.activePlayer =this.activePlayer===0?1:0
+      this.currenScore=0;
+    },
     handleNewGame(){
        console.log('jejelfjla adfjal');
        this.isPlaying=true;
@@ -44,8 +50,39 @@ export default {
        this.scorePlayer=[0,0]
        this.currenScore=0
        this.dice=[1,1]
-       
+    },
+    handleRollDice(){
+      console.log("roll app");
+      if(this.isPlaying){
+        var dice1 = Math.floor(Math.random()*6)+1
+        var dice2 = Math.floor(Math.random()*6)+1
+        this.dice = [dice1,dice2]
+        if(dice1===1||dice2==1){
+          this.nextPlayer();
+          setTimeout(() =>{alert(`người chơi ${this.activePlayer+1} đã quay trúng số 1 và mất lượt`)},20)
+          
+        }else{
+          this.currenScore= this.currenScore+dice1+dice2
+        }
+      }else{
+        alert('chua new game kia :v')
+        //helloo
+      }   
+    },
+    handleHoldDice(){
+      if(this.isPlaying){
+        let{scorePlayer, activePlayer, currenScore} =this
+        let scoreOld = scorePlayer[activePlayer]
+        let cloneScorePlayer =[...scorePlayer]
+        cloneScorePlayer[activePlayer] =scoreOld + currenScore
+        this.scorePlayer= cloneScorePlayer
+        this.nextPlayer()
+      }else{
+         alert('chua new game kia :v')
+      }
+      
     }
+
   }
 }
 </script>
